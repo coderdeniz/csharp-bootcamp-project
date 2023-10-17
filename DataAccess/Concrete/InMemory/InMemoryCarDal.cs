@@ -73,6 +73,11 @@ namespace DataAccess.Concrete.InMemory
             return _cars.SingleOrDefault(c=> c.Id == id);
         }
 
+        public List<CarDto> GetCarDetails()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Car car)
         {
             Car updatedToCar = _cars.SingleOrDefault(c => c.Id == car.Id);

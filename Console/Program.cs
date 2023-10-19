@@ -13,7 +13,7 @@ IBrandService brandService = new BrandManager(new EfBrandDal());
 
 //GetCars(carService);
 //GetCar(carService);
-//AddCar(carService);
+AddCar(carService);
 //UpdateCar(carService);
 //RemoveCar(carService);
 //GetCarDetails(carService);
@@ -64,7 +64,7 @@ static void Add(ICarService carService)
 
 static void GetCarsByColorId(ICarService carService)
 {
-    foreach (var car in carService.GetCarsByColorId(1))
+    foreach (var car in carService.GetCarsByColorId(1).Data)
     {
         Console.WriteLine("araç id:" + car.Id + " - " + "marka:" + car.BrandId + " - " + "name:" + car.Name + " - " + "color id:" + car.ColorId + " - " + car.DailyPrice + "TL");
     }
@@ -72,14 +72,14 @@ static void GetCarsByColorId(ICarService carService)
 
 static void GetColor(IColorService colorService)
 {
-    var car = colorService.GetColorById(1);
+    var car = colorService.GetColorById(1).Data;
     Console.WriteLine(car.Name + " - ");
 }
 
 static void GetColors(IColorService colorService)
 {
     var colors = colorService.GetAll();
-    foreach (var item in colors)
+    foreach (var item in colors.Data)
     {
         Console.WriteLine(item.Id + " - " + item.Name + " - ");
     }
@@ -87,13 +87,13 @@ static void GetColors(IColorService colorService)
 
 static void GetCar(ICarService carService)
 {
-    var car = carService.GetCarById(1);
+    var car = carService.GetCarById(1).Data;
     Console.WriteLine(car.Name + " - " + car.Description);
 }
 
 static void GetCars(ICarService carService)
 {
-    var cars = carService.GetAll();
+    var cars = carService.GetAll().Data;
     foreach (var item in cars)
     {
         Console.WriteLine(item.Id + " - " + item.Name + " - " + item.Description);
@@ -104,20 +104,15 @@ static void AddCar(ICarService carService)
 {
     var car = new Car
     {
-        BrandId = 1,
-        ColorId = 3,
-        Description = "2 kişilik",
-        Name = "Opel Corsa",
-        DailyPrice = 760,
-        ModelYear = 2011
+       
     };
-    carService.Add(car);
-    GetCars(carService);
+    Console.WriteLine(carService.Add(car).Message);
+    //GetCars(carService);
 }
 
 static void UpdateCar(ICarService carService)
 {
-    var car = carService.GetCarById(1);
+    var car = carService.GetCarById(1).Data;
     car.Description += " Update Test";
     carService.Update(car);
     GetCars(carService);
@@ -125,7 +120,7 @@ static void UpdateCar(ICarService carService)
 
 static void RemoveCar(ICarService carService)
 {
-    var car = carService.GetCarById(2);
+    var car = carService.GetCarById(2).Data;
     carService.Remove(car);
     GetCars(carService);
 }
@@ -142,7 +137,7 @@ static void AddColor(IColorService colorService)
 
 static void UpdateColor(IColorService colorService)
 {
-    var color = colorService.GetColorById(1);
+    var color = colorService.GetColorById(1).Data;
     color.Name += "update";
     colorService.Update(color);
     GetColors(colorService);
@@ -150,7 +145,7 @@ static void UpdateColor(IColorService colorService)
 
 static void RemoveColor(IColorService colorService)
 {
-    var color = colorService.GetColorById(1);
+    var color = colorService.GetColorById(1).Data;
     colorService.Remove(color);
     GetColors(colorService);
 }
@@ -169,7 +164,7 @@ static void AddBrand(IBrandService brandService)
 
 static void GetBrands(IBrandService brandService)
 {
-    foreach (var item in brandService.GetAll())
+    foreach (var item in brandService.GetAll().Data)
     {
         Console.WriteLine("{0} - {1}", item.Id, item.Name);
     }
@@ -177,12 +172,12 @@ static void GetBrands(IBrandService brandService)
 
 static void GetBrand(IBrandService brandService)
 {
-    Console.WriteLine(brandService.GetBrandById(4).Name);
+    Console.WriteLine(brandService.GetBrandById(4).Data.Name);
 }
 
 static void UpdateBrand(IBrandService brandService)
 {
-    var brand = brandService.GetBrandById(1);
+    var brand = brandService.GetBrandById(1).Data;
     brand.Name += " update";
     brandService.Update(brand);
     GetBrands(brandService);
@@ -190,13 +185,13 @@ static void UpdateBrand(IBrandService brandService)
 
 static void RemoveBrand(IBrandService brandService)
 {
-    brandService.Remove(brandService.GetBrandById(4));
+    brandService.Remove(brandService.GetBrandById(4).Data);
     GetBrands(brandService);
 }
 
 static void GetCarDetails(ICarService carService)
 {
-    foreach (var car in carService.GetCarDetails())
+    foreach (var car in carService.GetCarDetails().Data)
     {
         Console.WriteLine($"araba: {car.CarName} - renk: {car.ColorName} - marka: {car.BrandName} - günlük ücret: {car.DailyPrice}TL ");
     }

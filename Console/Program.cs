@@ -7,13 +7,47 @@ using Entities.Concrete;
 ICarService carService = new CarManager(new EfCarDal());
 IColorService colorService = new ColorManager(new EfColorDal());
 IBrandService brandService = new BrandManager(new EfBrandDal());
+IUserService userService = new UserManager(new EfUserDal());
+ICustomerService customerService = new CustomerManager(new EfCustomerDal(),new EfUserDal());
+IRentalService rentalService = new RentalManager(new EfRentalDal());
 
+
+// for user
+//var user = new User()
+//{
+//    FirstName = "Deniz",
+//    LastName = "Duman",
+//    Email = "denizdumanresmi@gmail.com",
+//    PasswordSalt = new byte[64],
+//    PasswordHash = new byte[64],
+//    Status = true
+//};
+//Console.WriteLine(userService.AddUser(user).Message);
+
+
+// for customer
+//var customer = new Customer
+//{
+//    UserId = 1,
+//    CompanyName = "DUMAN AŞ."
+//};
+//Console.WriteLine(customerService.AddCustomer(customer).Message);
+
+// for rental
+//var rental = new Rental
+//{
+//    CarId = 1,
+//    CustomerId = 1,
+//    RentDate = DateTime.Now.AddDays(-1),
+//    ReturnDate = null
+//};
+//Console.WriteLine(rentalService.AddRental(rental).Message);
 
 // for car
 
 //GetCars(carService);
 //GetCar(carService);
-AddCar(carService);
+//AddCar(carService);
 //UpdateCar(carService);
 //RemoveCar(carService);
 //GetCarDetails(carService);

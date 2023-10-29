@@ -28,12 +28,24 @@ namespace Business.Concrete
 
         public IDataResult<List<Brand>> GetAll()
         {
-            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll());
+            var result = _brandDal.GetAll();
+
+            if (result.Count > 0)
+            {
+                return new SuccessDataResult<List<Brand>>(_brandDal.GetAll());
+            }
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(),Messages.NoDataOnList);
         }
 
         public IDataResult<Brand> GetBrandById(int brandId)
         {
-            return new SuccessDataResult<Brand>(_brandDal.Get(b => b.Id == brandId)); 
+            var result = _brandDal.Get(b => b.Id == brandId);
+
+            if (result != null)
+            {
+                return new SuccessDataResult<Brand>(result);
+            }
+            return new SuccessDataResult<Brand>(result,Messages.NoDataOnFilter);
         }
 
         public IResult Remove(Brand brand)

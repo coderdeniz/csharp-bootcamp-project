@@ -1,0 +1,40 @@
+
+attribute: yani öznitelikler, c# yapýlarýna (method class vs) ayrýca yapýlardýr. Attribute kattýðýmýz yapýya anlam katýyoruz. 
+örnek olarak class property'lerine required attribute eklemek gibi, yani eklenen property'i için doldurulmasý gerekir hatasýný vermek için.
+örnek: dotnet'te hazýr olarak obsolete attribute vardýr. Kullanýldýðý yerde method'un eski olduðunu yenisinin geldiðini gösterir.
+
+not-1: attribute class'larýný oluþtururken sonuna attribute yazarýz ve attribute class'ýndan inherit ederiz. (örnek: RequiredPropertyAttribute)
+not-2: attribute'a parametre yollayabiliriz. parametreyi attribute sýnýfýnýn consturctorýn'dan yakalarýz.
+not-3: attribute'a logic eklemek için de reflection mimarisiyle ile yapýyoruz. Örnek olarak RequiredProperty attribute'i için ilgili property'i dolu mu kontrol et.
+not-4: attribute usage ile attribute'in nerelerde kullanýlabileceðini kontrol etmiþ oluyoruz. (örnek sadece methodlara eklenebilir vs.)
+
+
+
+reflection: uygulama çalýþýrken çalýþma anýnda (run time'da) çalýþtýðýmýz yapý hakkýnda bilgi alabilir ve istersek çalýþma anýnda çalýþtýrabiliriz.
+
+not: reflection'i gerektiði yerde kullanmalýyýz çünkü performans kaybý yaþatabilir.
+not: Activator.CreateInstance ile run-time'da instance üretebiliyoruz.
+
+
+delegate: Elçi de diyebileceðimiz,bu yapý metotlarý referanslamak için kullanýlýr. Delegeler, metotlarý bir deðiþken gibi saklamak ve bu metotlarý baþka metotlara parametre olarak geçmek için kullanýlýr. Bu, metotlarý daha esnek ve yeniden kullanýlabilir hale getirir.
+
+not: public delegate void MyDelegate(); þeklinde çaðrýlýr.
+
+not: += ile birden fazla metot alabilir.
+
+not: dotnet built-in olarak hazýr delegeler oluþturmuþtur, Action ve Func. Action void türünde fonksiyonlarý parametre etmek için hazýrlanmýþken func geri dönüþlü fonksiyonlar için hazýrlanmýþtýr.
+
+
+events: uygulamada bir hareket olduðunda harekete ek olarak yapmak istediðimiz iþlerde event'i kullanabiliriz.
+
+not: event'ler delegate'lerin kullanýmý ile gerçekleþir.
+not: abone olunmuþ o kontol edilir yani StockControlEvent != null ise
+
+örnek kullaným :     delegate void StockControl();
+   	                 public event StockControl StockControlEvent;
+
+
+
+
+
+

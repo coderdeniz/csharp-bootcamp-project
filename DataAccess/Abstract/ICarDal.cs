@@ -12,5 +12,7 @@ namespace DataAccess.Abstract
     public interface ICarDal : IEntityRepository<Car>
     {
         List<CarDto> GetCarDetails();
+        void AddImage(CarImage carImage);
+        CarImage? DeleteImage(int carImageId);
     }
 }

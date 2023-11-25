@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Entities;
+using Core.Utilities.Files;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -7,8 +9,10 @@ using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Business.Concrete
 {
@@ -32,6 +36,29 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.CarNameOrPriceError);
             }
+        }
+
+        public IResult AddImage(CarImageAddDto carImageAddDto, string path)
+        {
+            string folderRoad = Path.Combine(path, "cars");
+
+            var result = FileHelper.AddFile(carImageAddDto.ImageFile,folderRoad);
+
+            if (!result.Success)
+            {
+                return result;
+            }
+
+            CarImage carImage = new CarImage
+            {
+                CarId = carImageAddDto.CarId,
+                Date = DateTime.Now,
+                ImagePath = result.Data
+            };
+
+            _carDal.AddImage(carImage);
+
+            return result;        
         }
 
         public IDataResult<List<Car>> GetAll()
@@ -63,6 +90,19 @@ namespace Business.Concrete
         {
             _carDal.Delete(car);
             return new SuccessResult();
+        }
+
+        public IResult RemoveImage(CarImageDeleteDto carImageDeleteDto)
+        {
+            var entity = _carDal.DeleteImage(carImageDeleteDto.Id);
+            if (entity == null)
+            {
+                return new ErrorResult("Veri tabanında ilgili dosya bulunamadı");
+            }
+
+            var result = FileHelper.RemoveFile(entity.ImagePath);
+
+            return result;
         }
 
         public IResult Update(Car car)

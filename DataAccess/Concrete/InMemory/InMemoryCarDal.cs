@@ -44,6 +44,11 @@ namespace DataAccess.Concrete.InMemory
             _cars.Add(car);
         }
 
+        public void AddImage(CarImage carImage)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(Car car)
         {
             Car deletedToCar = _cars.SingleOrDefault(c => c.Id == car.Id);
@@ -52,6 +57,11 @@ namespace DataAccess.Concrete.InMemory
             {
                 _cars.Remove(deletedToCar);
             }
+        }
+
+        public CarImage? DeleteImage(int carImageId)
+        {
+            throw new NotImplementedException();
         }
 
         public Car Get(Expression<Func<Car, bool>> predicate)

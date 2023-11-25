@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,12 @@ namespace WebAPI.Controllers
     public class CarsController : ControllerBase
     {
         private readonly ICarService _carService;
+        private readonly IWebHostEnvironment _webhostEnvironment;
 
-        public CarsController(ICarService carService)
+        public CarsController(ICarService carService, IWebHostEnvironment webhostEnvironment)
         {
             _carService = carService;
+            _webhostEnvironment = webhostEnvironment;
         }
 
         [HttpGet("getall")]
@@ -98,5 +101,32 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpPost("AddImage")]
+        public IActionResult AddImage([FromForm] CarImageAddDto carImageAddDto)
+        {
+            var result = _carService.AddImage(carImageAddDto,_webhostEnvironment.WebRootPath);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpDelete("DeleteImage")]
+        public IActionResult AddImage(CarImageDeleteDto carImageDeleteDto)
+        {
+            var result = _carService.RemoveImage(carImageDeleteDto);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
     }
 }

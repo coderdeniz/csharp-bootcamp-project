@@ -42,7 +42,7 @@ namespace Business.Concrete
         {
             string folderRoad = Path.Combine(path, "cars");
 
-            var result = FileHelper.AddFile(carImageAddDto.ImageFile,folderRoad);
+            var result = FileHelper.AddFile(carImageAddDto.ImageFile,folderRoad, out string fullPath);
 
             if (!result.Success)
             {
@@ -53,7 +53,7 @@ namespace Business.Concrete
             {
                 CarId = carImageAddDto.CarId,
                 Date = DateTime.Now,
-                ImagePath = result.Data
+                ImagePath = fullPath
             };
 
             _carDal.AddImage(carImage);

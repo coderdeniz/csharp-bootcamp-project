@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class CarImageAddDto : IFile
+    public class CarImageAddDto : IFile, IDto
     {
         public int CarId { get; set; }
         public IFormFile ImageFile { get; set; }

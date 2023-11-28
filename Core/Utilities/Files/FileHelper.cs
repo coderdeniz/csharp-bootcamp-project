@@ -11,8 +11,10 @@ namespace Core.Utilities.Files
 {
     public class FileHelper
     {
-        public static IDataResult<string> AddFile(IFormFile file,string path)
+        public static IDataResult<string> AddFile(IFormFile file,string path,out string fullPath)
         {
+            fullPath = string.Empty;
+
             List<string> extensionList = new List<string> { ".png", ".jpg", ".jpeg" };
 
             string fileExtension = Path.GetExtension(file.FileName);
@@ -40,7 +42,9 @@ namespace Core.Utilities.Files
                 file.CopyTo(fileStream);
             }
 
-            return new SuccessDataResult<string>(fileRoad, "Dosya başarıyla eklendi");
+            fullPath = fileRoad;
+
+            return new SuccessDataResult<string>("Dosya başarıyla eklendi");
         }
         public static IDataResult<string> RemoveFile(string path)
         {

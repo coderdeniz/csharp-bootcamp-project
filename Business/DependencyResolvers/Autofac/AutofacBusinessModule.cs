@@ -3,6 +3,8 @@ using Autofac.Extras.DynamicProxy;
 using Business.Abstract;
 using Business.Concrete;
 using Core.Utilities.Interceptors;
+using Core.Utilities.Security.Jwt.Abstract;
+using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using System;
@@ -37,6 +39,9 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
             builder.RegisterType<EfUserDal>().As<IUserDal>().SingleInstance();
+
+            builder.RegisterType<AuthManager>().As<IAuthService>().SingleInstance();
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 
             builder.RegisterType<CarImageManager>().As<ICarImageService>().SingleInstance();
             builder.RegisterType<EfCarImageDal>().As<ICarImageDal>().SingleInstance();

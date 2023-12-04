@@ -4,6 +4,7 @@ using Autofac.Extensions.DependencyInjection;
 using Business.Abstract;
 using Business.Concrete;
 using Business.DependencyResolvers.Autofac;
+using Core.Utilities.IoC;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 
@@ -29,7 +30,8 @@ namespace WebAPI
                     builder.RegisterModule(new AutofacBusinessModule());
                 });
 
-
+            builder.Services.AddHttpContextAccessor();
+            ServiceTool.Create(builder.Services);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -41,6 +43,7 @@ namespace WebAPI
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

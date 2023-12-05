@@ -5,8 +5,12 @@ using Business.Abstract;
 using Business.Concrete;
 using Business.DependencyResolvers.Autofac;
 using Core.Utilities.IoC;
+using Core.Utilities.Security.Encryption;
+using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebAPI
 {
@@ -30,6 +34,32 @@ namespace WebAPI
                     builder.RegisterModule(new AutofacBusinessModule());
                 });
 
+
+            // jwt
+            builder.Services.AddCors(opt =>
+            {
+                opt.AddPolicy("AllowOrigin",
+                                builder => builder.WithOrigins("http://localhost:7238") // istek yapýlan yer
+                              );
+            });
+
+            var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                            .AddJwtBearer(opt =>
+            {
+                opt.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = tokenOptions.Issuer,
+                    ValidAudience = tokenOptions.Audience,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+                };
+            });
+
             builder.Services.AddHttpContextAccessor();
             ServiceTool.Create(builder.Services);
             var app = builder.Build();
@@ -41,10 +71,12 @@ namespace WebAPI
                 app.UseSwaggerUI();
             }
 
+            app.UseCors(builder => builder.WithOrigins("http://localhost:7238").AllowAnyHeader()); // get put post her türlü isteðe izin ver
+
             app.UseHttpsRedirection();
 
-            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseAuthentication();
 
 
             app.MapControllers();

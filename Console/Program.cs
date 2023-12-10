@@ -12,7 +12,7 @@ ICustomerService customerService = new CustomerManager(new EfCustomerDal(),new E
 IRentalService rentalService = new RentalManager(new EfRentalDal());
 
 
-carService.AddImage(null);
+//carService.AddImage(null);
 
 
 
